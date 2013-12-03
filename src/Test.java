@@ -12,6 +12,8 @@ import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 
 class RPSListener extends Listener
@@ -41,7 +43,6 @@ class RPSListener extends Listener
         System.out.println("Exited");
     }
 	
-	
 	public void onFrame(Controller controller)
 	{
 		try {
@@ -65,7 +66,7 @@ class RPSListener extends Listener
 		{
 			robot.mouseMove(x, y);
         }
-            
+         robot.delay(50);  
 		 GestureList gestures = frame.gestures();
 	        for (int i = 0; i < gestures.count(); i++) {
 	            Gesture gesture = gestures.get(i);
@@ -74,6 +75,8 @@ class RPSListener extends Listener
 	            case TYPE_SCREEN_TAP:
         			robot.mousePress(InputEvent.BUTTON1_MASK);
         			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+        			Toolkit.getDefaultToolkit().beep();
+        			robot.delay(1000);
                     break;
 	            case TYPE_KEY_TAP: 
 	            	break;
@@ -92,45 +95,39 @@ class RPSListener extends Listener
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-    }
+   }
 }
 
 class Sample {
 	
+	static RPSListener listener = new RPSListener();
+	static Controller controller = new Controller();
+	static Random r = new Random(); //DCT
+	static GUIListener guiStuff = new GUIListener();
+	static String playerThrow = ""; //DCT
+	static String compThrow = ""; //DCT
+	static String temp = "";
+	static String winner = "";
+	static int computer = 0; //DCT
+	static int player = 0;
+	
     public static void main(String[] args) 
     {
         // Create a sample listener and controller
-        RPSListener listener = new RPSListener();
-        Controller controller = new Controller();
-        int player = 0;
-        
-		Random r = new Random(); //DCT
-		String playerThrow = ""; //DCT
-		String compThrow = ""; //DCT
-		int computer = 0; //DCT
-		String temp =""; //DCT
-		GUIListener guiStuff = new GUIListener();
-        
-		controller.addListener(listener);
+    	controller.addListener(listener);
 		
-		Scanner play = new Scanner(System.in);
-		System.out.println("Do you want to play Rock Paper Scissor???  (1/0)");
-		//////////////////////////////////////////////////////DCT
+		//Scanner play = new Scanner(System.in);
+		//System.out.println("Do you want to play Rock Paper Scissor???  (1/0)");
+		//////////////////////////////////////////////////////DCT		
 		guiStuff.createAndShowGUI();
-		//////////////////////////////////////////////////////
-		int response = play.nextInt();
-			
-		while(response == 1)
-		{
-			System.out.println("Pick your hand in...");
+    }
+    
+	 public static void run() {
 			for(int x = 3; x > 0; x--)
 			{	
-				System.out.println(x);
-				temp = Integer.toString(x);
-				guiStuff.textUpdate(temp);
 				Pause.oneSec();
 			}
-            
+	        
 			if(controller.frame().hands().count() == 0)  //No hand   //DCT
 			{
 				player = 0;
@@ -151,65 +148,62 @@ class Sample {
 			{
 				player = 0;
 			}
-                    
+	                
 			computer = r.nextInt(3) + 1; //DCT
 			/////////////////////////////////////////DCT
 			switch(player){
 			case 0:
-            	playerThrow = "None";
-            	break;
-           	case 1:
-           		playerThrow = "Rock";
-           		break;
-           	case 2:
-           		playerThrow = "Paper";
-           		break;
-           	case 3:
-           		playerThrow = "Scissors";
-           		break;
+	        	playerThrow = "None";
+	        	break;
+	       	case 1:
+	       		playerThrow = "Rock";
+	       		break;
+	       	case 2:
+	       		playerThrow = "Paper";
+	       		break;
+	       	case 3:
+	       		playerThrow = "Scissors";
+	       		break;
 			}
-            
+	        
 			switch(computer){
-           	case 1:
-           		compThrow = "Rock";
-           		break;
-           	case 2:
-           		compThrow = "Paper";
-           		break;
-           	case 3:
-           		compThrow ="Scissors";
-           		break;
+	       	case 1:
+	       		compThrow = "Rock";
+	       		break;
+	       	case 2:
+	       		compThrow = "Paper";
+	       		break;
+	       	case 3:
+	       		compThrow ="Scissors";
+	       		break;
 			}
 			//////////////////////////////////////////DCT
-			System.out.println("Player: " + playerThrow + "\tComputer: " + compThrow + "\n"); //DCT
+			//System.out.println("Player: " + playerThrow + "\tComputer: " + compThrow + "\n"); //DCT
 	        
 			if((player== 1 && computer==3) || (player== 2 && computer==1) || (player== 3 && computer==2)) //p win
 			{
-				System.out.println("Player wins!");
+				//System.out.println("Player wins!");
+				winner = "Player wins!";
 			}
 			else if((player== 1 && computer==2) || (player== 2 && computer==3) || (player== 3 && computer==1)) //c win
 			{
-				System.out.println("Computer Wins!");
+				//System.out.println("Computer Wins!");
+				winner = "Computer wins!";
 			}
 			else if(player==computer) //draw
 			{
-				System.out.println("It's a draw!");
+				//System.out.println("It's a draw!");
+				winner = "It's a draw!";
 			}
 				else //nothing
 			{
-				System.out.println("No hand drawn");
+				//System.out.println("No hand drawn");
+				winner = "No hand drawn.";
 			}
-			temp = "Player: " + playerThrow + "\tComputer: " + compThrow + "\n";
-			guiStuff.textUpdate(temp);
 			
-			System.out.println("Do you want to play again? (1/0)");
-			response = play.nextInt();
-			player = 0;
-		}
-        
-        controller.removeListener(listener);////////////////////
-        
-        System.out.println("Game Over");
-        play.close();
-    }
+			temp = "Player: " + playerThrow + "\nComputer: " + compThrow + "\n" + winner;
+			System.out.println(temp);
+			//guiStuff.textUpdate();
+			
+	}
 }

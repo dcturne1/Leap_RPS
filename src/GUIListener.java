@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -11,14 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class GUIListener extends JPanel
 {
-	static JTextArea textArea = new JTextArea(3, 30);
+	JButton buttonY = new JButton("Yes");
+	JButton buttonN = new JButton("No");
+	
+	JTextArea textArea = new JTextArea(3, 30);
 	
 	public GUIListener() {
-        
+       
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         
@@ -30,21 +31,36 @@ public class GUIListener extends JPanel
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        
+                
         JLabel label = new JLabel("Would you like to play a game of Rock, Paper, Scissors?");
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JButton buttonY = new JButton("Yes");
         buttonY.setPreferredSize(new Dimension(225, 80));
         buttonY.setMinimumSize(new Dimension(225, 80));
         buttonY.setMaximumSize(new Dimension(225, 80));
         buttonY.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonY.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0)	{
+    			/*for(int x = 3; x > 0; x--)
+    			{	
+    				Sample.temp = Integer.toString(x);
+    				Pause.oneSec();
+    				textUpdate();
+    			}*/
+        		Sample.run();
+        		textUpdate();
+        	}
+        });
         
-        JButton buttonN = new JButton("No");
         buttonN.setPreferredSize(new Dimension(225, 80));
         buttonN.setMinimumSize(new Dimension(225, 80));
         buttonN.setMaximumSize(new Dimension(225, 80));
         buttonN.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonN.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		System.exit(0);
+        	}
+        });
         
         panel.add(label);
         panel.add(scrollPane);
@@ -54,12 +70,12 @@ public class GUIListener extends JPanel
         add(panel);
     }
 	
-	public void textUpdate(String temp) {
-		textArea.setCaretPosition(0);
-		textArea.append(temp + "\n");
-		textArea.setCaretPosition(textArea.getDocument().getLength());
+	public void textUpdate() {
+			textArea.setCaretPosition(0);
+			textArea.append(Sample.temp + "\n");
+			textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
-
+	
 	public void createAndShowGUI(){
         JFrame frame = new JFrame("Rock, Paper, Scissors");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

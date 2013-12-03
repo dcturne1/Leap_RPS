@@ -1,5 +1,5 @@
 public class Pause 
-{
+{	
 	public static void oneSec()
 	{
 		try
