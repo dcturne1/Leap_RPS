@@ -1,19 +1,9 @@
-import java.io.IOException;
-import java.lang.Math;
 import java.util.Random;
-import java.util.Scanner;
-
 import com.leapmotion.leap.*;
-import com.leapmotion.leap.Gesture.State;
-
-import javax.swing.*;
-
 import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 
 class RPSListener extends Listener
@@ -75,7 +65,7 @@ class RPSListener extends Listener
 	            case TYPE_SCREEN_TAP:
         			robot.mousePress(InputEvent.BUTTON1_MASK);
         			robot.mouseRelease(InputEvent.BUTTON1_MASK);
-        			Toolkit.getDefaultToolkit().beep();
+        			//Toolkit.getDefaultToolkit().beep();
         			robot.delay(1000);
                     break;
 	            case TYPE_KEY_TAP: 
@@ -125,6 +115,7 @@ class Sample {
 	 public static void run() {
 			for(int x = 3; x > 0; x--)
 			{	
+				Toolkit.getDefaultToolkit().beep();
 				Pause.oneSec();
 			}
 	        

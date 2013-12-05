@@ -72,7 +72,7 @@ public class GUIListener extends JPanel
 	
 	public void textUpdate() {
 			textArea.setCaretPosition(0);
-			textArea.append(Sample.temp + "\n");
+			textArea.append(Sample.temp + "\n\n");
 			textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 	
